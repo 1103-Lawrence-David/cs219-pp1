@@ -16,8 +16,14 @@ void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint
             ss >> std::hex >> tempI;
         
             if(tempI >= 0){
-                uint32_t hextemp = (uint32_t) tempI;
-                arrHex1[length] = hextemp;
+                uint64_t hextemp = (uint64_t) tempI;
+                if(tempI > 2147483647){
+                    hextemp = tempI - 2147483648;
+                    arrHex1[length] = hextemp;
+                }
+                else{
+                    arrHex1[length] = hextemp;
+                }
             }
             
             else{
@@ -34,8 +40,15 @@ void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint
         if(tempChar == ' '){
             ss >> std::hex >> tempI;
             if(tempI >= 0){
-                uint32_t hextemp = (uint32_t) tempI;
-                arrHex2[length] = hextemp;
+                uint64_t hextemp = (uint64_t) tempI;
+                cout << tempI << endl; //debugging
+                if(tempI > 2147483647){
+                    hextemp = tempI - 2147483648;
+                    arrHex2[length] = hextemp;
+                }
+                else{
+                    arrHex2[length] = hextemp;
+                }
             }
             else{
                 flag1[length] = true;
@@ -54,7 +67,7 @@ void ADD(uint32_t b1, uint32_t b2){
     cout << std::hex << temp << endl;  
 }
 
-void SUB(uint32_t b1, uint32_t b2){
+void SUB(uint32_t b1, uint32_t b2){ //not correct
     uint32_t temp = b1 - b2;
     cout << std::hex << temp << endl;
 }
@@ -142,64 +155,71 @@ void GT(uint32_t b1, uint32_t b2){
 }
 
 void display(uint32_t* b1, uint32_t* b2, string* s, int i, bool* flag1){
-    for(int index = 0; index < i; index++){
-        cout << s[index] << "     "  << std::hex << b1[index] << "     " << b2[index] << "     " << flag1[index];
-        cout << endl;
-    }
+    cout << s[i] << "     "  << std::hex << b1[i] << "     " << b2[i] << "     " << flag1[i];
 }
 
-void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, int* op, bool* flag2){
+void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, int* op, bool* flag1, bool* flag2){
    for(int i = 0; i < length; i++){
         if(arrStr[i] == "ADD"){
             op[i] = 1;
+            display(b1, b2, arrStr, i, flag1);
+            ADD(b1[i], b2[i]);
         }
         else if(arrStr[i] == "SUB"){
             op[i] = 2;
+            display(b1, b2, arrStr, i, flag1);
+            SUB(b1[i], b2[i]);
         }
         else if(arrStr[i] == "AND"){
             op[i] = 3;
+            display(b1, b2, arrStr, i, flag1);
+            AND(b1[i], b2[i]);
         }
         else if(arrStr[i] == "OR"){
             op[i] = 4;
+            display(b1, b2, arrStr, i, flag1);
+            OR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "XOR"){
             op[i] = 5;
+            display(b1, b2, arrStr, i, flag1);
+            XOR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "NOT"){
             op[i] = 6;
+            display(b1, b2, arrStr, i, flag1);
+            NOT(b1[i]);
         }
         else if(arrStr[i] == "LSL"){
             op[i] = 7;
+            display(b1, b2, arrStr, i, flag1);
+            LSL(b1[i], b2[i]);
         }
         else if(arrStr[i] == "LSR"){
             op[i] = 8;
+            display(b1, b2, arrStr, i, flag1);
+            LSR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "EQ"){
             op[i] = 9;
+            display(b1, b2, arrStr, i, flag1);
+            EQ(b1[i], b2[i]);
         }
         else if(arrStr[i] == "LT"){
             op[i] = 10;
+            display(b1, b2, arrStr, i, flag1);
+            LT(b1[i], b2[i]);
         }
         else if(arrStr[i] == "GT"){
             op[i] = 11;
+            display(b1, b2, arrStr, i, flag1);
+            GT(b1[i], b2[i]);
         }
         else{
             op[i] = 0;
         }
-    
-        flag2[i] = errCheck(arrStr, b1, b2, i, op[i]);
+
     }
     
    
-}
-
-bool errCheck(string* strArr, uint32_t* b1, uint32_t* b2, int pos, int op){ //change to operation run or remove
-    switch (op){
-        case 0:
-            return true;
-        case 1:
-    }
-
-
-    return true;
 }
