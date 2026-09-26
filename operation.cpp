@@ -1,26 +1,52 @@
 #include "operation.h"
 
 
-void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint32_t* arrHex2){
+void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint32_t* arrHex2, bool* flag1){
     string temp, strToHex;
+    char tempChar;
     
     length = 0;
-
-    while (getline(fp, temp)){ // issue with single 
-        getline(fp, arrStr[length], ' ');
+    while (getline(fp, temp)) {
+        stringstream ss(temp);
+        ss >> arrStr[length];
+        int tempI = 0;
+        ss.get(tempChar);
         
-        getline(fp, strToHex, 'x'); //formatting, trashing unnecessary section
+        if(tempChar == ' '){
+            ss >> std::hex >> tempI;
+        
+            if(tempI >= 0){
+                uint32_t hextemp = (uint32_t) tempI;
+                arrHex1[length] = hextemp;
+            }
+            
+            else{
+                flag1[length] = true;
+            }
+        }
+        else{
+            arrHex1[length] == 0;
+            arrHex2[length] == 0;
+        }
+        
+        ss.get(tempChar);
 
-        getline(fp, strToHex, ' ');
-        uint32_t hextemp = static_cast<uint32_t>(stoul(strToHex));
-        arrHex1[length] = hextemp;
-
-        if(getline(fp, strToHex, ' ') ){
-            getline(fp, strToHex, ' ');
-            arrHex1[length] = static_cast<uint32_t>(stoul(strToHex));
+        if(tempChar == ' '){
+            ss >> std::hex >> tempI;
+            if(tempI >= 0){
+                uint32_t hextemp = (uint32_t) tempI;
+                arrHex2[length] = hextemp;
+            }
+            else{
+                flag1[length] = true;
+            }
+        }
+        else{
+            arrHex2[length] == 0;
         }
         length++;
     }
+
 }
 
 void ADD(uint32_t b1, uint32_t b2){
@@ -115,8 +141,65 @@ void GT(uint32_t b1, uint32_t b2){
     }
 }
 
-void display(uint32_t* b, int i){
+void display(uint32_t* b1, uint32_t* b2, string* s, int i, bool* flag1){
     for(int index = 0; index < i; index++){
-        cout << b[index] << endl;
+        cout << s[index] << "     "  << std::hex << b1[index] << "     " << b2[index] << "     " << flag1[index];
+        cout << endl;
     }
+}
+
+void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, int* op, bool* flag2){
+   for(int i = 0; i < length; i++){
+        if(arrStr[i] == "ADD"){
+            op[i] = 1;
+        }
+        else if(arrStr[i] == "SUB"){
+            op[i] = 2;
+        }
+        else if(arrStr[i] == "AND"){
+            op[i] = 3;
+        }
+        else if(arrStr[i] == "OR"){
+            op[i] = 4;
+        }
+        else if(arrStr[i] == "XOR"){
+            op[i] = 5;
+        }
+        else if(arrStr[i] == "NOT"){
+            op[i] = 6;
+        }
+        else if(arrStr[i] == "LSL"){
+            op[i] = 7;
+        }
+        else if(arrStr[i] == "LSR"){
+            op[i] = 8;
+        }
+        else if(arrStr[i] == "EQ"){
+            op[i] = 9;
+        }
+        else if(arrStr[i] == "LT"){
+            op[i] = 10;
+        }
+        else if(arrStr[i] == "GT"){
+            op[i] = 11;
+        }
+        else{
+            op[i] = 0;
+        }
+    
+        flag2[i] = errCheck(arrStr, b1, b2, i, op[i]);
+    }
+    
+   
+}
+
+bool errCheck(string* strArr, uint32_t* b1, uint32_t* b2, int pos, int op){ //change to operation run or remove
+    switch (op){
+        case 0:
+            return true;
+        case 1:
+    }
+
+
+    return true;
 }
