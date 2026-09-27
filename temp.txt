@@ -1,26 +1,28 @@
 #include "operation.h"
 
 
-void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint32_t* arrHex2, bool* flag1){ //flags are fucked, technically works, fuck me
-    string temp;
+void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint32_t* arrHex2, bool* flag1){
+    string temp, strToHex;
     char tempChar, tempArr[10];
-    int tempI = 0;
-    uint32_t hextemp = (uint32_t) tempI;
-    uint32_t tempI2;
-    string temps;
-
+    
+    length = 0;
     while (getline(fp, temp)) {
         stringstream ss(temp);
         ss >> arrStr[length];
-
+        int tempI = 0;
+        uint32_t hextemp = (uint64_t) tempI;
+        uint64_t tempI2;
+        string temps;
         ss.get(tempChar);
         
         if(tempChar == ' '){
-        ss >> std::hex >> tempI2;
+            
+            ss >> std::hex >> tempI2;
+
             if(tempI2 >= 0 && tempI2 < 2147483647){
                 hextemp = tempI2;
                 arrHex1[length] = hextemp;
-                //cout << "hextemp1: " << hextemp << endl;//debugging
+                cout << "hextemp1: " << hextemp << endl;
                 hextemp = 0;
             }
             else if(tempI2 >= 2147483647){
@@ -35,19 +37,19 @@ void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint
             }
         }
         else{
-            arrHex1[length] = 0;
-            arrHex2[length] = 0;
+            arrHex1[length] == 0;
+            arrHex2[length] == 0;
         }
+        
+        ss.get(tempChar);
+
         if(tempChar == ' '){
-            for(int i = 0; i < 1; i++){
-                tempArr[i] = ss.get();
-            }
-            ss >> std::hex >> tempI2;
-            //cout << tempI2;//debugging
+           ss >> std::hex >> tempI2;
+
             if(tempI2 >= 0 && tempI2 < 2147483647){
                 hextemp = tempI2;
                 arrHex2[length] = hextemp;
-                //cout << "hextemp2: " << hextemp << endl;//debugging
+                cout << "hextemp2: " << hextemp << endl;
                 hextemp = 0;
             }
             else if(tempI2 >= 2147483647){
@@ -62,10 +64,11 @@ void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint
             }
         }
         else{
-            arrHex2[length] = 0;
+            arrHex2[length] == 0;
         }
         length++;
     }
+
 }
 
 void ADD(uint32_t b1, uint32_t b2){
