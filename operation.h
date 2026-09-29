@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void readFile(ifstream&, int&, string*, uint32_t*, uint32_t*, bool*); //needs more work for error mitigation (missing numbers, invalid numbers.)
+void readFile(ifstream&, int&, string*, uint32_t*, uint32_t*, bool*, bool*, bool*);
 
 void ADD(uint32_t, uint32_t);//WORKS
 void SUB(uint32_t, uint32_t);//WORKS
@@ -22,7 +22,9 @@ void LSR(uint32_t, int);
 void EQ(uint32_t, uint32_t);
 void LT(uint32_t, uint32_t);
 void GT(uint32_t, uint32_t);
-void display(uint32_t*, uint32_t*, string*, int, bool*);
+void display(uint32_t*, uint32_t*, string*, int, bool*, bool*);
 
-void operationSet(string*, uint32_t*, uint32_t*, int, int*, bool*, bool*);
+void operationSet(string*, uint32_t*, uint32_t*, int, int*, bool*, bool*, bool*);
+
+void errorCheck(ifstream&, int, bool*);
 #endif

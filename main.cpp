@@ -1,24 +1,36 @@
+//Author: David Lawrence
+//v 0.9: fully functional, just needs to have a documentation added and report finished.
 #include "operation.h"
 #define SIZE 200
 #define READ_FILE "pp1_input.txt"
 
 //Flag is a debugging and logic tool. flag1 = true means there is a negativ enumber somewhere in the file input. 
-//flag 2 is a catch all for any errors in operation (number out of range, too many or few operations per request, etc.)
+//flag 2 detects if an operand doesn't exist. if the function is not NOT, it is then determined to be missing operands.
+//Flag 3 detects if there are more than 2 operands. If there are, its an immediate fail. It does not attempt to store this information, and instead displays the error by itself.
 
 int main (){
     int operation[SIZE], length = 0;
     uint32_t bit1[SIZE], bit2[SIZE];
     string arrStr1[SIZE];
-    bool flag1[SIZE], flag2[SIZE];
+    bool flag1[SIZE], flag2[SIZE], flag3[SIZE];
 
-    ifstream fptr("pp1_input.txt");
+    ifstream fptr(READ_FILE);
     if(!fptr.is_open()){
-        cout<< "UH OH!" << endl;
-        return 0;
+        cout<< "File could not be opened properly." << endl;
+        return 1;
     }
+    readFile(fptr,length, arrStr1, bit1, bit2, flag1, flag2, flag3);
+    fptr.close();
+    
+    ifstream fptr2(READ_FILE);
+    if(!fptr2.is_open()){
+        cout<< "File could not be opened properly." << endl;
+        return 1;
+    }
+    errorCheck(fptr2, length, flag1);
+    fptr2.close();
 
-    readFile(fptr,length, arrStr1, bit1, bit2, flag1);
-    operationSet(arrStr1, bit1, bit2, length, operation, flag1, flag2);
+    operationSet(arrStr1, bit1, bit2, length, operation, flag1, flag2, flag3);
 
     return 0;
 }
