@@ -57,43 +57,43 @@ void readFile(ifstream& fp, int& length, string* arrStr, uint32_t* arrHex1, uint
 //This function adds b1 to b2, then outputs the result. 
 void ADD(uint32_t b1, uint32_t b2){
     uint32_t temp = b1 + b2;
-    cout << std::hex << "<" << temp << ">" << endl;  
+    cout << "<0x" << std::hex << temp << ">" << endl;  
 }
 
 //This function subtracts b2 from b1, then outputs the result. 
 void SUB(uint32_t b1, uint32_t b2){ //not correct
     uint32_t temp = b1 - b2;
-    cout << std::hex << "<" << temp << ">" << endl;
+    cout << "<0x" << std::hex << temp << ">" << endl;
 }
 
 //This function does bitwise AND to b1 and b2, then outputs the result. 
 void AND(uint32_t b1, uint32_t b2){
     uint32_t temp = b1 & b2;
-    cout << std::hex << "<" << temp << ">" << endl;   
+    cout << "<0x" << std::hex << temp << ">" << endl;   
 }
 
 //This function does bitwise OR to b1 and b2, then outputs the result. 
 void OR(uint32_t b1, uint32_t b2){
     uint32_t temp = b1 | b2;
-    cout << std::hex << "<" << temp << ">" << endl;
+    cout << "<0x" << std::hex << temp << ">" << endl;
 }
 //This function does bitwise XOR to b1 and b2, then outputs the result. 
 void XOR(uint32_t b1, uint32_t b2){
     uint32_t temp = b1 ^ b2;
-    cout << std::hex << "<" << temp << ">" << endl;
+    cout << "<0x" << std::hex << temp << ">" << endl;
 }
 
 //This function does bitwise NOT to b, then outputs the result. 
 void NOT(uint32_t b){
     uint32_t temp = ~b;
-    cout << std::hex << "<" << temp << ">" << endl;
+    cout << "<0x" << std::hex << temp << ">" << endl;
 }
 
 //This function outputs the result of b being shifted by i left, if i is greater than 0 and less than 32. Otherwise, an error is returned.
 void LSL(uint32_t b, int i){
     if(i > 0 && i < 32){
         uint32_t temp = b << i;
-        cout << std::hex << "<" << temp << ">" << endl;
+        cout << "<0x" << std::hex << temp << ">" << endl;
     }
     else if(i >= 32){
         cout << "<Shift Value exceeds bit size>" << endl;
@@ -104,7 +104,7 @@ void LSL(uint32_t b, int i){
 void LSR(uint32_t b, int i){
     if(i > 0 && i < 32){
         uint32_t temp = b >> i;
-        cout << std::hex << "<" << temp << ">" << endl;
+        cout << "<0x"<< std::hex << temp << ">" << endl;
     }
     else if(i >= 32){
         cout << "<Shift Value exceeds bit size>" << endl;
@@ -162,7 +162,10 @@ void display(uint32_t* b1, uint32_t* b2, string* s, int i, bool* flag1, bool* fl
     }
 }
 
-void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, int* op, bool* flag1, bool* flag2, bool* flag3){
+
+//Originally the idea was to have a seperate function called "operationRun", which would check the operation stored in op against preset values. I realized i could do that here, but there are soom
+//Remenats of that idea in the code, as much was written with that in mind.
+void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, bool* flag1, bool* flag2, bool* flag3){
    for(int i = 0; i < length; i++){
         if(flag3[i] == true){
             cout << "<Invalid Operand Count>" << endl;
@@ -176,57 +179,46 @@ void operationSet(string* arrStr, uint32_t* b1, uint32_t* b2, int length, int* o
             cout << "<Invalid Operand Count>" << endl;
         }
         else if(arrStr[i] == "ADD"){
-            op[i] = 1;
             display(b1, b2, arrStr, i, flag1, flag2);
             ADD(b1[i], b2[i]);
         }
         else if(arrStr[i] == "SUB"){
-            op[i] = 2;
             display(b1, b2, arrStr, i, flag1, flag2);
             SUB(b1[i], b2[i]);
         }
         else if(arrStr[i] == "AND"){
-            op[i] = 3;
             display(b1, b2, arrStr, i, flag1, flag2);
             AND(b1[i], b2[i]);
         }
         else if(arrStr[i] == "OR"){
-            op[i] = 4;
             display(b1, b2, arrStr, i, flag1, flag2);
             OR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "XOR"){
-            op[i] = 5;
             display(b1, b2, arrStr, i, flag1, flag2);
             XOR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "NOT"){
-            op[i] = 6;
             display(b1, b2, arrStr, i, flag1, flag2);
             NOT(b1[i]);
         }
         else if(arrStr[i] == "LSL"){
-            op[i] = 7;
             display(b1, b2, arrStr, i, flag1, flag2);
             LSL(b1[i], b2[i]);
         }
         else if(arrStr[i] == "LSR"){
-            op[i] = 8;
             display(b1, b2, arrStr, i, flag1, flag2);
             LSR(b1[i], b2[i]);
         }
         else if(arrStr[i] == "EQ"){
-            op[i] = 9;
             display(b1, b2, arrStr, i, flag1, flag2);
             EQ(b1[i], b2[i]);
         }
         else if(arrStr[i] == "LT"){
-            op[i] = 10;
             display(b1, b2, arrStr, i, flag1, flag2);
             LT(b1[i], b2[i]);
         }
         else if(arrStr[i] == "GT"){
-            op[i] = 11;
             display(b1, b2, arrStr, i, flag1, flag2);
             GT(b1[i], b2[i]);
         }
