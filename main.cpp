@@ -1,5 +1,5 @@
 //Author: David Lawrence
-//v 0.9: fully functional, just needs to have a documentation added and report finished.
+//v 1.0: fully functional
 #include "operation.h"
 #define SIZE 200
 #define READ_FILE "pp1_input.txt"
@@ -9,7 +9,7 @@
 //Flag 3 detects if there are more than 2 operands. If there are, its an immediate fail. It does not attempt to store this information, and instead displays the error by itself.
 
 int main (){
-    int operation[SIZE], length = 0;
+    int length = 0;
     uint32_t bit1[SIZE], bit2[SIZE];
     string arrStr1[SIZE];
     bool flag1[SIZE], flag2[SIZE], flag3[SIZE];
@@ -30,7 +30,7 @@ int main (){
     errorCheck(fptr2, length, flag1);
     fptr2.close();
 
-    operationSet(arrStr1, bit1, bit2, length, operation, flag1, flag2, flag3);
+    operationSet(arrStr1, bit1, bit2, length, flag1, flag2, flag3);
 
     return 0;
 }
