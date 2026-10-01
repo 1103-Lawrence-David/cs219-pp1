@@ -24,7 +24,7 @@ void LT(uint32_t, uint32_t);
 void GT(uint32_t, uint32_t);
 void display(uint32_t*, uint32_t*, string*, int, bool*, bool*);
 
-void operationSet(string*, uint32_t*, uint32_t*, int, int*, bool*, bool*, bool*);
+void operationSet(string*, uint32_t*, uint32_t*, int, bool*, bool*, bool*);
 
 void errorCheck(ifstream&, int, bool*);
 #endif
